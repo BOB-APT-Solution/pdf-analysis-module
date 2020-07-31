@@ -10,12 +10,12 @@ pdf-analysis-module$ python3 main.py file.pdf --no-obfuscate # 난독화 안된 
 * python2.7.17
 * pip install slimit (python2.7 pip로 수행)
 
-### how to run
+## how to run
 **1, 2 번은 클론 후 최초 1회만 실행**
 1. pdf-analysis-module$ git submodule init
 2. pdf-analysis-module$ git submodule update
 3. pdf-analysis-module$ python3 main.py your-pdf.pdf
 
-### output
+## output
 your-pdf.js
 
