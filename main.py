@@ -1,6 +1,7 @@
 # python3.6
 import sys
 import subprocess
+from optparse import OptionParser
 
 def _command_pipeline(command:str) -> int:
     try:
@@ -14,12 +15,24 @@ def _command_pipeline(command:str) -> int:
 
     return 1
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print(f"example --> python main.py <pdf_file>")
-        exit(-1)
+    usage = "usage: %prog --file=file.pdf --no-obfuscate"
+    parser = OptionParser(usage)
+    parser.add_option("-f", "--file", dest="filename",
+                      help="pdf file")
+    parser.add_option('--obfuscate', default=False, action='store_true')
+    parser.add_option('--no-obfuscate', dest='obfuscate', action='store_false')
+
+    (options, args) = parser.parse_args()
     
-    file_name = sys.argv[1].split('.')[0]
+    file_name = options.filename.split('.')[0]
+    print(f"[RUN] echo 'extract js > {file_name}.js' > extract_cmd.txt")
     _command_pipeline(f"echo 'extract js > {file_name}.js' > extract_cmd.txt")
-    ret = _command_pipeline(f"python2 peepdf/peepdf.py -l -f -s extract_cmd.txt {sys.argv[1]}")
+
+    command = _command_pipeline(f"python2 peepdf/peepdf.py -l -f -s extract_cmd.txt {options.filename}")
+    print(f"[RUN] python2 peepdf/peepdf.py -l -f -s extract_cmd.txt {options.filename} ==> return code {command}")
     
-    exit(ret)
+    if options.obfuscate:
+        command = _command_pipeline(f"python2 JS-Deobfuscator/deobfuscate.py {file_name}.js {file_name}.js")
+        print(f"[OBFUSCATE] python2 JS-Deobfuscator/deobfuscate.py {file_name}.js {file_name}.js ==> return code {command}")
+
+    exit(1)
