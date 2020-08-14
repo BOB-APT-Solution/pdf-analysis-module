@@ -1,4 +1,10 @@
 # pdf-analysis-module
+
+## 프로젝트 소개
+악성으로 의심되는 PDF 파일에서 javascript를 추출하여 이에대한 파일을 생성하고, javascript 난독화 해제를 할 수 있는 프로젝트이다.
+
+
+
 ### USAGE
 ```
 
